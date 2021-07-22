@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./server/server.js --exec babel-node"
+    "dev": "nodemon ./server/server.js --exec babel-node --ignore './client'"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +18,9 @@
     "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
-    "mongoose": "^5.13.0"
+    "mongoose": "^5.13.0",
+    "node-sass": "^6.0.1",
+    "sass-loader": "^12.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
