@@ -2,12 +2,32 @@ import React, { Fragment } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import AppNavBar from '../components/AppNavbar';
+import { Container } from 'reactstrap';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import PostCardList from './nomalRoute/PostCardList';
+import PostWrite from './nomalRoute/PostWrite';
+import PostDetail from './nomalRoute/PostDetail';
+import Search from './nomalRoute/Search';
+import CategoryResult from './nomalRoute/CategoryResult';
 
 const MyRouter = () => (
   <Fragment>
     <AppNavBar />
     <Header />
-    <h1>Hello Body</h1>
+    <Container id="main-body">
+      <Switch>
+        <Route path="/" exact component={PostCardList} />
+        <Route path="/post" exact component={PostWrite} />
+        <Route path="/post/:id" exact component={PostDetail} />
+        <Route
+          path="/post/category/:categoryName"
+          exact
+          component={CategoryResult}
+        />
+        <Route path="/search/:searchTerm" exact component={Search} />
+        <Redirect from="*" to="/" />
+      </Switch>
+    </Container>
     <Footer />
   </Fragment>
 );

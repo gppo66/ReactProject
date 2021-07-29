@@ -59,7 +59,7 @@ const AppNavBar = () => {
       <NavItem className="d-flex justify-content-center">
         <Form className="col mt-2">
           {user && user.name ? (
-            <Link>
+            <Link to="#">
               <Button outline color="light" className="px-3 " block>
                 <strong>{user ? `Welcome ${user.name}` : ''}</strong>
               </Button>
@@ -102,7 +102,7 @@ const AppNavBar = () => {
           </Link>
           <NavbarToggler onClick={handleToggle} />
           <Collapse isOpen={isOpen} navbar>
-            <Nav className="ml-auto d-flex justify-content-around " navbar>
+            <Nav className="ml-3 d-flex justify-content-around" navbar>
               {isAuthenticated ? authLink : guestLink}
             </Nav>
           </Collapse>
