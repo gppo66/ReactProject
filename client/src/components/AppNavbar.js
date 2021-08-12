@@ -10,9 +10,9 @@ import {
   Button,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import LoginModal from './auth/LoginModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOGOUT_REQUEST } from '../redux/types';
+import LoginModal from './auth/LoginModal';
 import RegisterModal from './auth/RegisterModal';
 
 const AppNavBar = () => {
@@ -102,7 +102,7 @@ const AppNavBar = () => {
           </Link>
           <NavbarToggler onClick={handleToggle} />
           <Collapse isOpen={isOpen} navbar>
-            <Nav className="ml-3 d-flex justify-content-around" navbar>
+            <Nav className="ml-auto d-flex justify-content-around" navbar>
               {isAuthenticated ? authLink : guestLink}
             </Nav>
           </Collapse>
