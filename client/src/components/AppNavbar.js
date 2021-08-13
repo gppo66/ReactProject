@@ -46,7 +46,7 @@ const AppNavBar = () => {
           <Form className="col mt-2">
             <Link
               to="post"
-              className="btn btn-success block text-white px-3"
+              className="btn btn-success block text-white px-3 ml-3"
               onClick={addPostClick}
             >
               Add Post
@@ -56,7 +56,7 @@ const AppNavBar = () => {
           ''
         )}
       </NavItem>
-      <NavItem className="d-flex justify-content-center">
+      <NavItem className="d-flex justify-content-center ml-auto">
         <Form className="col mt-2">
           {user && user.name ? (
             <Link to="#">
@@ -97,12 +97,15 @@ const AppNavBar = () => {
     <Fragment>
       <Navbar color="dark" dark expand="lg" className="sticky-top">
         <Container>
-          <Link to="/" className="text-white text-decoration-none">
+          <Link
+            to="/"
+            className="text-white text-decoration-none navLogo-custom-set"
+          >
             JellBe's Blog (젤베의 블로그)
           </Link>
           <NavbarToggler onClick={handleToggle} />
           <Collapse isOpen={isOpen} navbar>
-            <Nav className="ml-auto d-flex justify-content-around" navbar>
+            <Nav className="ml-3 d-flex justify-content-around " navbar>
               {isAuthenticated ? authLink : guestLink}
             </Nav>
           </Collapse>

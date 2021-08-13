@@ -23,3 +23,33 @@
   height: 20rem;
   object-fit: cover;
 }
+
+.navBar-custom-set {
+  position: relative;
+  width: 1440px;
+  height: 84px;
+  background: #0e0e0e;
+}
+
+.navLogo-custom-set {
+  /* Auto Layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.navLink-custom-set {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+}
+
+.navbar-collapse {
+  flex-grow: 0;
+}
+
+.nav-item {
+  margin-left: 10px;
+}
