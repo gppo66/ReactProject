@@ -1,6 +1,6 @@
 import express from 'express';
 import auth from '../../middleware/auth';
-
+import moment from 'moment';
 // Model
 import Post from '../../models/post';
 import Category from '../../models/category';
@@ -13,8 +13,9 @@ import path from 'path';
 import AWS from 'aws-sdk';
 import dotenv from 'dotenv';
 import multer from 'multer';
-import moment from 'moment';
+
 import { isNullOrUndefined } from 'util';
+import { Mongoose } from 'mongoose';
 
 dotenv.config();
 
@@ -68,7 +69,7 @@ router.post('/', auth, uploadS3.none(), async (req, res, next) => {
       title,
       contents,
       fileUrl,
-      creator,
+      creator: req.user.id,
       date: moment().format('YYYY-MM-DD hh:mm:ss'),
     });
 
@@ -88,7 +89,7 @@ router.post('/', auth, uploadS3.none(), async (req, res, next) => {
       await Category.findByIdAndUpdate(newCategory._id, {
         $push: { posts: newPost._id },
       });
-      await User.findByIdAndUpdate(req.User.id, {
+      await User.findByIdAndUpdate(req.user.id, {
         $push: {
           posts: newPost._id,
         },
@@ -100,12 +101,13 @@ router.post('/', auth, uploadS3.none(), async (req, res, next) => {
       await Post.findByIdAndUpdate(newPost._id, {
         category: findResult._id,
       });
-      await User.findByIdAndUpdate(req.User.id, {
+      await User.findByIdAndUpdate(req.user.id, {
         $push: {
           posts: newPost._id,
         },
       });
     }
+    console.log(newPost._id, ' new Post ');
     return res.redirect(`/api/post/${newPost._id}`);
   } catch (e) {
     console.log(e);
@@ -118,11 +120,16 @@ router.post('/', auth, uploadS3.none(), async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id)
-      .popuplate('creator', 'name')
-      .popuplate({ path: category, select: 'categoryName' });
+      .populate('creator', 'name')
+      .populate({ path: 'category', select: 'categoryName' });
+    post.views += 1;
+    post.save();
+    console.log(post);
+    res.json(post);
   } catch (e) {
     console.error(e);
     next(e);
   }
 });
+
 export default router;

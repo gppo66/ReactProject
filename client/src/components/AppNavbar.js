@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { LOGOUT_REQUEST } from '../redux/types';
+import { LOGOUT_REQUEST, POSTS_WRITE_REQUEST } from '../redux/types';
 import LoginModal from './auth/LoginModal';
 import RegisterModal from './auth/RegisterModal';
 
@@ -38,14 +38,18 @@ const AppNavBar = () => {
     setIsOpen(!isOpen);
   };
 
-  const addPostClick = () => {};
+  const addPostClick = () => {
+    dispatch({
+      type: POSTS_WRITE_REQUEST,
+    });
+  };
   const authLink = (
     <Fragment>
       <NavItem>
         {userRole === 'MainAdmin' ? (
           <Form className="col mt-2">
             <Link
-              to="post"
+              to="/post"
               className="btn btn-success block text-white px-3 ml-3"
               onClick={addPostClick}
             >

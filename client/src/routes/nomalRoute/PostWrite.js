@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
@@ -14,6 +14,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor'
 import { editorConfiguration } from '../../components/editor/EditorConfig';
 import Myinit from '../../components/editor/UploadAdapter';
 import dotenv from 'dotenv';
+import { POST_UPLOADING_REQUEST } from '../../redux/types';
 dotenv.config();
 
 const PostWrite = () => {
@@ -31,11 +32,18 @@ const PostWrite = () => {
   const onSubmit = async (e) => {
     await e.preventDefault();
     const { title, contents, fileUrl, category } = form;
+    const token = localStorage.getItem('token');
+    const body = { title, contents, fileUrl, category, token };
+    dispatch({
+      type: POST_UPLOADING_REQUEST,
+      payload: body,
+    });
   };
 
   const getDataFromCKEditor = (event, editor) => {
     const data = editor.getData();
     console.log(data);
+
     if (data && data.match('<img src=')) {
       const whereImg_start = data.indexOf('<img src=');
       console.log(whereImg_start);
@@ -77,7 +85,7 @@ const PostWrite = () => {
   return (
     <div>
       {isAuthenticated ? (
-        <Form>
+        <Form onSubmit={onSubmit}>
           <FormGroup className="mb-3">
             <Label for="title">Title</Label>
             <Input
