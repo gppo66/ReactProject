@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {} from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { Button, Col, Row } from 'reactstrap';
 import {
   POST_DELETE_REQUEST,
@@ -10,10 +10,11 @@ import {
 import CKEditor from '@ckeditor/ckeditor5-react';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { GrowingSpinner } from '../../components/spinner/Spinner';
 
 const PostDetail = (req) => {
   const dispatch = useDispatch();
-  const { PostDetail, creatorId, title, loading } = useSelector(
+  const { postDetail, creatorId, title, loading } = useSelector(
     (state) => state.post,
   );
   const { userId, userName } = useSelector((state) => state.auth);
@@ -75,7 +76,37 @@ const PostDetail = (req) => {
       </Row>
     </Fragment>
   );
-  return <div>Post Detail</div>;
+
+  const Body = (
+    <>
+      {userId === creatorId ? EditButton : HomeButton}
+      <Row className="border-bottom border-top border-primary p-3 mb-3 justify-content-between nameTag">
+        {(() => {
+          if (postDetail && postDetail.creator) {
+            return (
+              <Fragment>
+                <div className="NameTagFont">
+                  <span className="mr-3 categorySection">
+                    <Button color="info">
+                      {postDetail.category.categoryName}
+                    </Button>
+                  </span>
+                  {postDetail.title}
+                </div>
+                <div className="align-self-end">{postDetail.creator.name}</div>
+              </Fragment>
+            );
+          }
+        })()}
+      </Row>
+    </>
+  );
+  return (
+    <div>
+      <Helmet title={`Post | ${title}`} />
+      {loading === true ? GrowingSpinner : Body}
+    </div>
+  );
 };
 
 export default PostDetail;

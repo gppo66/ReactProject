@@ -17,7 +17,7 @@ const initialState = {
   postCount: '',
   loading: false,
   error: '',
-  creatorID: '',
+  creatorId: '',
   categoryFindResult: '',
   title: '',
   searchBy: '',
