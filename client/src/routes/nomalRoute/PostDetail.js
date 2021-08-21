@@ -7,11 +7,19 @@ import {
   POST_DETAIL_LOADING_REQUEST,
   USER_LOADING_REQUEST,
 } from '../../redux/types';
-import CKEditor from '@ckeditor/ckeditor5-react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import BallonEditor from '@ckeditor/ckeditor5-editor-balloon/src/ballooneditor';
+import BalloonEditor from '@ckeditor/ckeditor5-editor-balloon/src/ballooneditor';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { GrowingSpinner } from '../../components/spinner/Spinner';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPencilAlt,
+  faCommentDots,
+  faMouse,
+} from '@fortawesome/free-solid-svg-icons';
+import { editorConfiguration } from '../../components/editor/EditorConfig';
 const PostDetail = (req) => {
   const dispatch = useDispatch();
   const { postDetail, creatorId, title, loading } = useSelector(
@@ -80,7 +88,7 @@ const PostDetail = (req) => {
   const Body = (
     <>
       {userId === creatorId ? EditButton : HomeButton}
-      <Row className="border-bottom border-top border-primary p-3 mb-3 justify-content-between nameTag">
+      <Row className="border-bottom border-top border-primary p-3 mb-3 d-flex justify-content-between nameTag">
         {(() => {
           if (postDetail && postDetail.creator) {
             return (
@@ -99,6 +107,32 @@ const PostDetail = (req) => {
           }
         })()}
       </Row>
+      {postDetail && postDetail.comments ? (
+        <Fragment>
+          <div className="d-flex justify-content-end align-items-baseline small">
+            <FontAwesomeIcon icon="faPencilAlt" />
+            &nbsp;
+            <span> {postDetail.date}</span>
+            &nbsp; &nbsp;
+            <FontAwesomeIcon icon={faCommentDots} />
+            &nbsp;
+            <span>{postDetail.comments.length}</span>
+            &nbsp;&nbsp;
+            <FontAwesomeIcon icon={faMouse} />
+            <span>{postDetail.views}</span>
+          </div>
+          <Row className="mb-3">
+            <CKEditor
+              editor={BalloonEditor}
+              data={postDetail.contents}
+              config={editorConfiguration}
+              disabled="true"
+            />
+          </Row>
+        </Fragment>
+      ) : (
+        <h1>s</h1>
+      )}
     </>
   );
   return (
