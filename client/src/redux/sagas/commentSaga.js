@@ -13,14 +13,14 @@ import {
 // Load Comment
 
 const loadCommentsAPI = (payload) => {
-  console.log(payload, ' load Comment API ID');
+  console.log(payload, 'loadCommentAPI ID');
   return axios.get(`/api/post/${payload}/comments`);
 };
 
 function* loadComments(action) {
   try {
     const result = yield call(loadCommentsAPI, action.payload);
-    console.log(result);
+    console.log(result, ' comment result');
     yield put({
       type: COMMENT_LOADING_SUCCESS,
       payload: result.data,
@@ -39,17 +39,18 @@ function* watchLoadComments() {
   yield takeEvery(COMMENT_LOADING_REQUEST, loadComments);
 }
 
-// UPLoad Comment
+// UpLoad Comment
 
 const uploadCommentsAPI = (payload) => {
-  console.log(payload.id, ' load Comment API ID');
-  return axios.post(`/api/post/${payload.id}/comments`);
+  console.log(payload.id, 'loadCommentAPI ID');
+  return axios.post(`/api/post/${payload.id}/comments`, payload);
 };
 
 function* uploadComments(action) {
   try {
+    console.log(action);
     const result = yield call(uploadCommentsAPI, action.payload);
-    console.log(result, 'UploadComments');
+    console.log(result, 'UploadComment');
     yield put({
       type: COMMENT_UPLOADING_SUCCESS,
       payload: result.data,

@@ -133,16 +133,16 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// COMMENTS ROUTE
+// [Comments Route]
 
-// @route Get api/post/comments
-// @desc Get All comments
+// @route Get api/post/:id/comments
+// @desc  Get All Comments
 // @access public
 
 router.get('/:id/comments', async (req, res) => {
   try {
     const comment = await Post.findById(req.params.id).populate({
-      path: 'comment',
+      path: 'comments',
     });
     const result = comment.comments;
     console.log(result, 'comment load');
@@ -152,7 +152,8 @@ router.get('/:id/comments', async (req, res) => {
   }
 });
 
-router.post('/:id/comments', async (req, res) => {
+router.post('/:id/comments', async (req, res, next) => {
+  console.log(req, 'comments');
   const newComment = await Comment.create({
     contents: req.body.contents,
     creator: req.body.userId,
@@ -160,14 +161,15 @@ router.post('/:id/comments', async (req, res) => {
     post: req.body.id,
     date: moment().format('YYYY-MM-DD hh:mm:ss'),
   });
-  console.log(newComment, 'new Comment');
+  console.log(newComment, 'newComment');
+
   try {
     await Post.findByIdAndUpdate(req.body.id, {
       $push: {
         comments: newComment._id,
       },
     });
-    await User.findByIdAndUpdate(req.body.id, {
+    await User.findByIdAndUpdate(req.body.userId, {
       $push: {
         comments: {
           post_id: req.body.id,
@@ -182,4 +184,65 @@ router.post('/:id/comments', async (req, res) => {
   }
 });
 
+// @route Delete api/post/:id
+// @desc Delete a Post
+// @access private
+
+router.delete('/:id', auth, async (req, res) => {
+  await Post.deleteMany({ _id: req.params.id });
+  await Comment.deleteMany({ post: req.params.id });
+  await User.findByIdAndUpdate(req.user.id, {
+    $pull: {
+      posts: req.params.id,
+      comments: { post_id: req.params.id },
+    },
+  });
+  const CategoryUpdateResult = await Category.findOneAndUpdate(
+    { posts: req.params.id },
+    { $pull: { posts: req.params.id } },
+    { new: true },
+  );
+
+  if (CategoryUpdateResult.posts.length === 0) {
+    await Category.deleteMany({ _id: CategoryUpdateResult });
+  }
+  return res.json({ success: true });
+});
+
+// @route Get api/post/:id/edit
+// @desc Edit Post
+// @access private
+
+router.get('/:id/edit', auth, async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.id).populate('creator', 'name');
+    res.json(post);
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+router.post('/:id/edit', auth, async (req, res, next) => {
+  console.log(req, 'api/post/:id/edit');
+  const {
+    body: { title, contents, fileUrl, id },
+  } = req;
+  try {
+    const modified_post = await Post.findByIdAndUpdate(
+      id,
+      {
+        title,
+        contents,
+        fileUrl,
+        date: moment().format('YYYY-MM-DD hh:mm:ss'),
+      },
+      { new: true },
+    );
+    console.log(modified_post, 'edit modified');
+    res.redirect(`/api/post/${modified_post.id}`);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
 export default router;

@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { Button, Col, Row } from 'reactstrap';
+import { Button, Col, Container, Row } from 'reactstrap';
 import {
   POST_DELETE_REQUEST,
   POST_DETAIL_LOADING_REQUEST,
   USER_LOADING_REQUEST,
 } from '../../redux/types';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
+// eslint-disable-next-line no-unused-vars
 import BallonEditor from '@ckeditor/ckeditor5-editor-balloon/src/ballooneditor';
 import BalloonEditor from '@ckeditor/ckeditor5-editor-balloon/src/ballooneditor';
 import { Fragment } from 'react';
@@ -20,12 +21,14 @@ import {
   faMouse,
 } from '@fortawesome/free-solid-svg-icons';
 import { editorConfiguration } from '../../components/editor/EditorConfig';
+import Comments from '../../components/comments/Comments';
 const PostDetail = (req) => {
   const dispatch = useDispatch();
   const { postDetail, creatorId, title, loading } = useSelector(
     (state) => state.post,
   );
   const { userId, userName } = useSelector((state) => state.auth);
+  const { comments } = useSelector((state) => state.comment);
 
   useEffect(() => {
     dispatch({
@@ -36,6 +39,7 @@ const PostDetail = (req) => {
       type: USER_LOADING_REQUEST,
       payload: localStorage.getItem('token'),
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onDeleteClick = () => {
@@ -110,7 +114,7 @@ const PostDetail = (req) => {
       {postDetail && postDetail.comments ? (
         <Fragment>
           <div className="d-flex justify-content-end align-items-baseline small">
-            <FontAwesomeIcon icon="faPencilAlt" />
+            <FontAwesomeIcon icon={faPencilAlt} />
             &nbsp;
             <span> {postDetail.date}</span>
             &nbsp; &nbsp;
@@ -128,6 +132,41 @@ const PostDetail = (req) => {
               config={editorConfiguration}
               disabled="true"
             />
+          </Row>
+          <Row>
+            <Container className="mb-3 border border-blue rounded">
+              {Array.isArray(comments)
+                ? comments.map(
+                    ({ contents, creator, date, _id, creatorName }) => (
+                      <div key={_id}>
+                        <Row className="justify-content-between p-2">
+                          <div className="font-weight-bold">
+                            {creatorName ? creatorName : creator}
+                          </div>
+                          <div className="text-small">
+                            <span className="font-weight-bold">
+                              {date.split(' ')[0]}
+                            </span>
+                            <span className="font-weight-light">
+                              {' '}
+                              {date.split(' ')[1]}
+                            </span>
+                          </div>
+                        </Row>
+                        <Row className="p-2">
+                          <div>{contents}</div>
+                        </Row>
+                        <hr />
+                      </div>
+                    ),
+                  )
+                : 'Creator'}
+              <Comments
+                id={req.match.params.id}
+                userId={userId}
+                userName={userName}
+              />
+            </Container>
           </Row>
         </Fragment>
       ) : (
