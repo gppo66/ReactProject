@@ -89,3 +89,9 @@ html {
   font-size: 1.4rem;
   font-weight: 700 !important;
 }
+
+.my_category {
+  &:last-child {
+    margin-bottom: 0.25rem;
+  }
+}

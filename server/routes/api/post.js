@@ -55,8 +55,12 @@ router.post('/image', uploadS3.array('upload', 5), async (req, res, next) => {
 // api/post
 router.get('/', async (req, res) => {
   const postFindResult = await Post.find();
+  const categoryFindResult = await Category.find();
+  const result = { postFindResult, categoryFindResult };
+
+  res.json(result);
   console.log(postFindResult, 'All Post Get');
-  res.json(postFindResult);
+  res.json(result);
 });
 
 // @route POST api/post
@@ -245,4 +249,24 @@ router.post('/:id/edit', auth, async (req, res, next) => {
     next(e);
   }
 });
+
+router.get('/category/:categoryName', async (req, res, next) => {
+  try {
+    const result = await Category.findOne(
+      {
+        categoryName: {
+          $regex: req.params.categoryName,
+          $options: 'i',
+        },
+      },
+      'posts',
+    ).populate({ path: 'posts' });
+    console.log(result, 'Category Find result');
+    res.send(result);
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+});
+
 export default router;
