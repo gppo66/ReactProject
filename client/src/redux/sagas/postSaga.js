@@ -23,17 +23,20 @@ import {
   POST_UPLOADING_FAILURE,
   POST_UPLOADING_REQUEST,
   POST_UPLOADING_SUCCESS,
+  SEARCH_FAILURE,
+  SEARCH_REQUEST,
+  SEARCH_SUCCESS,
 } from '../types';
 
 // ALL POSTS LOAD
 
-const loadPostAPI = () => {
-  return axios.get('/api/post');
+const loadPostAPI = (payload) => {
+  return axios.get(`/api/post/skip/${payload}`);
 };
 
-function* loadPosts() {
+function* loadPosts(action) {
   try {
-    const result = yield call(loadPostAPI);
+    const result = yield call(loadPostAPI, action.payload);
     console.log(result, 'LoadPosts');
     yield put({
       type: POSTS_LOADING_SUCCESS,
@@ -251,6 +254,32 @@ function* CategoryFind(action) {
 function* watchCategoryFind() {
   yield takeEvery(CATEGORY_FIND_REQUEST, CategoryFind);
 }
+
+// SEARCH
+const SearchResultAPI = (payload) => {
+  return axios.get(`/api/search/${encodeURIComponent(payload)}`);
+};
+
+function* SearchResult(action) {
+  try {
+    const result = yield call(SearchResultAPI, action.payload);
+    yield put({
+      type: SEARCH_SUCCESS,
+      payload: result.data,
+    });
+    yield put(push(`/search/${encodeURIComponent(action.payload)}`));
+  } catch (e) {
+    yield put({
+      type: SEARCH_FAILURE,
+      payload: e,
+    });
+    yield put(push('/'));
+  }
+}
+
+function* watchSearchResult() {
+  yield takeEvery(SEARCH_REQUEST, SearchResult);
+}
 export default function* postSaga() {
   yield all([
     fork(watchLoadPosts),
@@ -260,5 +289,6 @@ export default function* postSaga() {
     fork(watchPostEditLoad),
     fork(watchPostEditUpload),
     fork(watchCategoryFind),
+    fork(watchSearchResult),
   ]);
 }

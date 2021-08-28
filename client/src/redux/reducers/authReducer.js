@@ -8,6 +8,12 @@ import {
   LOGOUT_FAILURE,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
+  PASSWORD_EDIT_UPLOADING_FAILURE,
+  PASSWORD_EDIT_UPLOADING_REQUEST,
+  PASSWORD_EDIT_UPLOADING_SUCCESS,
+  PROFILE_FAILURE,
+  PROFILE_REQUEST,
+  PROFILE_SUCCESS,
   REGISTER_FAILURE,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
@@ -25,6 +31,7 @@ const initialState = {
   userRole: '',
   errorMsg: '',
   successMsg: '',
+  previousMatchMsg: '',
 };
 
 const authReducer = (state = initialState, action) => {
@@ -47,6 +54,7 @@ const authReducer = (state = initialState, action) => {
         isLoading: false,
         userId: action.payload.userId,
         userRole: action.payload.userRole,
+        userName: action.payload.userName,
         errorMsg: '',
       };
     case REGISTER_FAILURE:
@@ -75,21 +83,7 @@ const authReducer = (state = initialState, action) => {
         userRole: null,
         errorMsg: '',
       };
-    case CLEAR_ERROR_REQUEST:
-      return {
-        ...state,
-        errorMsg: null,
-      };
-    case CLEAR_ERROR_SUCCESS:
-      return {
-        ...state,
-        errorMsg: null,
-      };
-    case CLEAR_ERROR_FAILURE:
-      return {
-        ...state,
-        errorMsg: null,
-      };
+
     case USER_LOADING_REQUEST:
       return {
         ...state,
@@ -112,6 +106,57 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: false,
         isLoading: false,
         userRole: '',
+      };
+    case PASSWORD_EDIT_UPLOADING_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case PASSWORD_EDIT_UPLOADING_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        successMsg: action.payload.data.success_msg,
+        errorMsg: '',
+        previousMsg: '',
+      };
+    case PASSWORD_EDIT_UPLOADING_FAILURE:
+      console.log(action.payload, ' fail_msg');
+      return {
+        ...state,
+        isLoading: false,
+        successMsg: '',
+        errorMsg: action.payload.fail_msg,
+        previousMatchMsg: action.payload.match_msg,
+      };
+    case CLEAR_ERROR_REQUEST:
+      return {
+        ...state,
+      };
+    case CLEAR_ERROR_SUCCESS:
+      return {
+        ...state,
+        errorMsg: '',
+        previousMatchMsg: '',
+      };
+    case CLEAR_ERROR_FAILURE:
+      return {
+        ...state,
+        errorMsg: 'Clear Error Fail',
+        previousMatchMsg: 'Clear Error Fail',
+      };
+    case PROFILE_REQUEST:
+      return {
+        ...state,
+        posts: [],
+      };
+    case PROFILE_SUCCESS:
+      return {
+        ...state,
+      };
+    case PROFILE_FAILURE:
+      return {
+        ...state,
       };
     default:
       return state;

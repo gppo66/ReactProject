@@ -1,6 +1,4 @@
 import React from 'react';
-// eslint-disable-next-line no-unused-vars
-import { Component } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
@@ -13,6 +11,32 @@ export const EditProtectedRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={(props) => {
         if (userId === creatorId) {
+          return <Component {...props} />;
+        } else {
+          return (
+            <Redirect
+              to={{
+                pathname: '/',
+                state: {
+                  from: props.location,
+                },
+              }}
+            />
+          );
+        }
+      }}
+    />
+  );
+};
+
+export const ProfileProtectedRoute = ({ component: Component, ...rest }) => {
+  const { userName } = useSelector((state) => state.auth);
+  console.log(userName);
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        if (props.match.params.userName === userName) {
           return <Component {...props} />;
         } else {
           return (

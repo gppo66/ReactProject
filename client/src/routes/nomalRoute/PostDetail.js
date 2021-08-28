@@ -39,8 +39,7 @@ const PostDetail = (req) => {
       type: USER_LOADING_REQUEST,
       payload: localStorage.getItem('token'),
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, req.match.params.id]);
 
   const onDeleteClick = () => {
     dispatch({

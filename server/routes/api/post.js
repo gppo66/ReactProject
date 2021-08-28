@@ -15,7 +15,6 @@ import AWS from 'aws-sdk';
 import dotenv from 'dotenv';
 import multer from 'multer';
 
-import { isNullOrUndefined } from 'util';
 import { Mongoose } from 'mongoose';
 
 dotenv.config();
@@ -52,15 +51,24 @@ router.post('/image', uploadS3.array('upload', 5), async (req, res, next) => {
   }
 });
 
-// api/post
-router.get('/', async (req, res) => {
-  const postFindResult = await Post.find();
-  const categoryFindResult = await Category.find();
-  const result = { postFindResult, categoryFindResult };
+// @route GET api/post
+// @desc More Loading Posts
+// @access Public
+router.get('/skip/:skip', async (req, res) => {
+  try {
+    const postCount = await Post.countDocuments();
+    const postFindResult = await Post.find()
+      .skip(Number(req.params.skip))
+      .limit(6)
+      .sort({ date: -1 });
 
-  res.json(result);
-  console.log(postFindResult, 'All Post Get');
-  res.json(result);
+    const categoryFindResult = await Category.find();
+    const result = { postFindResult, categoryFindResult, postCount };
+    res.json(result);
+  } catch (e) {
+    console.error(e);
+    res.json({ msg: ' 더 이상 포스트가 없습니다.' });
+  }
 });
 
 // @route POST api/post

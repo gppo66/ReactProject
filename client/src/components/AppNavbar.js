@@ -11,9 +11,14 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { LOGOUT_REQUEST, POSTS_WRITE_REQUEST } from '../redux/types';
+import {
+  LOGOUT_REQUEST,
+  POSTS_WRITE_REQUEST,
+  USER_LOADING_REQUEST,
+} from '../redux/types';
 import LoginModal from './auth/LoginModal';
 import RegisterModal from './auth/RegisterModal';
+import SearchInput from './search/SearchInput';
 
 const AppNavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,9 +26,9 @@ const AppNavBar = () => {
     (state) => state.auth,
   );
   console.log(userRole, 'UserRole');
+  console.log(user, 'user info');
 
   const dispatch = useDispatch();
-
   const onLogout = useCallback(() => {
     dispatch({
       type: LOGOUT_REQUEST,
@@ -33,6 +38,13 @@ const AppNavBar = () => {
   useEffect(() => {
     setIsOpen(false);
   }, [user]);
+
+  useEffect(() => {
+    dispatch({
+      type: USER_LOADING_REQUEST,
+      payload: localStorage.getItem('token'),
+    });
+  }, [dispatch, isAuthenticated]);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -63,7 +75,7 @@ const AppNavBar = () => {
       <NavItem className="d-flex justify-content-center ml-auto">
         <Form className="col mt-2">
           {user && user.name ? (
-            <Link to="#">
+            <Link to={`/user/${user.name}/profile`}>
               <Button outline color="light" className="px-3 " block>
                 <strong>{user ? `Welcome ${user.name}` : ''}</strong>
               </Button>
@@ -109,6 +121,7 @@ const AppNavBar = () => {
           </Link>
           <NavbarToggler onClick={handleToggle} />
           <Collapse isOpen={isOpen} navbar>
+            <SearchInput isOpen={isOpen} />
             <Nav className="ml-3 d-flex justify-content-around " navbar>
               {isAuthenticated ? authLink : guestLink}
             </Nav>

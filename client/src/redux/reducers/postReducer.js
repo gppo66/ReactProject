@@ -17,6 +17,9 @@ import {
   POST_EDIT_UPLOADING_FAILURE,
   POST_EDIT_UPLOADING_REQUEST,
   POST_EDIT_UPLOADING_SUCCESS,
+  SEARCH_FAILURE,
+  SEARCH_REQUEST,
+  SEARCH_SUCCESS,
 } from '../types';
 
 const initialState = {
@@ -39,7 +42,6 @@ export default function (state = initialState, action) {
     case POSTS_LOADING_REQUEST:
       return {
         ...state,
-        posts: [],
         loading: true,
       };
     case POSTS_LOADING_SUCCESS:
@@ -47,6 +49,7 @@ export default function (state = initialState, action) {
         ...state,
         posts: [...state.posts, ...action.payload.postFindResult],
         categoryFindResult: action.payload.categoryFindResult,
+        postCount: action.payload.postCount,
         loading: false,
       };
     case POSTS_LOADING_FAILURE:
@@ -141,6 +144,26 @@ export default function (state = initialState, action) {
       return {
         ...state,
         categoryFindResult: action.payload,
+        loading: false,
+      };
+    case SEARCH_REQUEST:
+      return {
+        ...state,
+        posts: [],
+        searchBy: action.payload,
+        loading: true,
+      };
+    case SEARCH_SUCCESS:
+      return {
+        ...state,
+        searchBy: state.searchBy,
+        searchResult: action.payload,
+        loading: false,
+      };
+    case SEARCH_FAILURE:
+      return {
+        ...state,
+        searchResult: action.payload,
         loading: false,
       };
     default:

@@ -9,8 +9,12 @@ import PostWrite from './nomalRoute/PostWrite';
 import PostDetail from './nomalRoute/PostDetail';
 import Search from './nomalRoute/Search';
 import CategoryResult from './nomalRoute/CategoryResult';
-import { EditProtectedRoute } from './protectedRoute/ProtectedRoute';
+import {
+  EditProtectedRoute,
+  ProfileProtectedRoute,
+} from './protectedRoute/ProtectedRoute';
 import PostEdit from './nomalRoute/PostEdit';
+import Profile from './nomalRoute/Profile';
 
 const MyRouter = () => (
   <Fragment>
@@ -26,6 +30,11 @@ const MyRouter = () => (
           path="/post/category/:categoryName"
           exact
           component={CategoryResult}
+        />
+        <ProfileProtectedRoute
+          path="/user/:userName/profile"
+          exact
+          component={Profile}
         />
         <Route path="/search/:searchTerm" exact component={Search} />
         <Redirect from="*" to="/" />
