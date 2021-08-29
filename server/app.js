@@ -12,9 +12,12 @@ import authRoutes from './routes/api/auth';
 import searchRoutes from './routes/api/search';
 
 import morgan from 'morgan';
+import path from 'path';
 
 const app = express();
 const { MONGO_URI } = config;
+
+const prod = process.env.NODE_ENV === 'production';
 
 app.use(hpp());
 app.use(helmet());
@@ -39,5 +42,12 @@ app.use('/api/post', postsRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/search', searchRoutes);
+
+if (prod) {
+  app.use(expree.static(path.join(__dirname, '../client/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  });
+}
 
 export default app;
