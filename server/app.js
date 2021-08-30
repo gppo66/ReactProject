@@ -26,7 +26,23 @@ app.use(
   }),
 );
 
-app.use(cors({ origin: true, credentials: true }));
+// app.use(cors({ origin: true, credentials: true }));
+if (prod) {
+  app.use(
+    cors({
+      origin: ['https://jellybear.kr', /\.jellybear\.coms$/],
+      credentials: true,
+    }),
+  );
+} else {
+  app.use(morgan('dev'));
+  app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    }),
+  );
+}
 app.use(morgan('dev'));
 
 app.use(express.json());
