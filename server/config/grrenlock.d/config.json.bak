@@ -14,5 +14,14 @@
     "serverKeyType": "RSA-2048",
     "subscriberEmail": "gppo66@gmail.com"
   },
-  "sites": []
+  "sites": [
+    {
+      "subject": "jellybear.kr",
+      "altnames": [
+        "jellybear.kr",
+        "www.jellybear.kr"
+      ],
+      "renewAt": 1
+    }
+  ]
 }
