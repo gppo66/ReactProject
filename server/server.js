@@ -18,6 +18,6 @@ greenlock
     console.log('greenlock work');
   });
 
-// app.listen(PORT, () => {
-//   console.log(`Server stated on Port ${PORT}`);
-// });
+/* app.listen(PORT, () => {
+  console.log(`Server started on Port ${PORT}`);
+}); */
