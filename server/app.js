@@ -70,8 +70,16 @@ app.all('*', (req, res, next) => {
   if (protocol === 'https') {
     next();
   } else {
-    let to = `https://jellybear.kr`;
+    let to = `https://${req.hostname}${req.url}`;
     res.redirect(to);
+  }
+});
+//www to non-www
+app.all('/*', function (req, res, next) {
+  if (req.headers.host.match(/^www/) !== null) {
+    res.redirect('https://' + req.headers.host.replace(/^www\./, '') + req.url);
+  } else {
+    next();
   }
 });
 
