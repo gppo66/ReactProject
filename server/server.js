@@ -10,7 +10,7 @@ const { PORT } = config;
 greenlock
   .init({
     packageRoot: path.join(__dirname, '../'),
-    configDir: path.join(__dirname, '../', 'server/config/greenlock.d'),
+    configDir: path.join(__dirname, 'server/config/greenlock.d'),
     maintainerEmail: 'gppo66@gmail.com',
     cluster: false,
   })
