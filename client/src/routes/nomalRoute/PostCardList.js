@@ -72,7 +72,7 @@ const PostCardList = () => {
   console.log(visible, 'visible', skipNumberRef.current, 'skipNum');
   return (
     <Fragment>
-      <Helmet title="Home" />
+      <Helmet title="JB's Blog" />
       <Row className="border-bottom border-top border-primary py-2 mb-3">
         <Category posts={categoryFindResult} />
       </Row>

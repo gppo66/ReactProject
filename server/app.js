@@ -42,6 +42,17 @@ mongoose
   .catch((e) => console.log(e));
 
 // Use routes
+
+app.all('*', (req, res, next) => {
+  let protocol = req.headers['x-forward-proto'] || req.protocol;
+  if (protocol === 'https') {
+    next();
+  } else {
+    let to = `https://${req.hostname}${req.url}`;
+    res.redirect(to);
+  }
+});
+
 app.use('/api/post', postsRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
