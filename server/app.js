@@ -13,7 +13,6 @@ import searchRoutes from './routes/api/search';
 
 import morgan from 'morgan';
 import path from 'path';
-import { ConfigurationServicePlaceholders } from 'aws-sdk/lib/config_service_placeholders';
 
 const app = express();
 const { MONGO_URI } = config;
