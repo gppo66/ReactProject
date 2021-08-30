@@ -70,7 +70,7 @@ app.all('*', (req, res, next) => {
   if (protocol === 'https') {
     next();
   } else {
-    let to = `https://${req.hostname}${req.url}`;
+    let to = `https://jellybear.kr`;
     res.redirect(to);
   }
 });
