@@ -34,6 +34,12 @@ if (prod) {
       credentials: true,
     }),
   );
+  app.use(
+    cors({
+      origin: ['https://www.jellybear.kr', /\.jellybear\.coms$/],
+      credentials: true,
+    }),
+  );
 } else {
   app.use(morgan('dev'));
   app.use(
