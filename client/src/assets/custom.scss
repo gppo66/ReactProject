@@ -78,9 +78,6 @@ html {
   overflow-x: hidden;
 }
 
-.nameTag {
-}
-
 .categorySection {
   margin-right: 1rem !important;
 }
@@ -94,4 +91,28 @@ html {
   &:last-child {
     margin-bottom: 0.25rem;
   }
+}
+
+.comment-custom {
+  width: 1300px !important;
+  max-width: 100%;
+}
+
+.custom-col6 {
+  text-align: end;
+}
+
+.custom-btn {
+  width: 100%;
+}
+
+.custom-col {
+  flex: 0 0 auto;
+  width: 20%;
+}
+
+.custom-row {
+  width: auto;
+  padding-left: 4px;
+  padding-right: 4px;
 }

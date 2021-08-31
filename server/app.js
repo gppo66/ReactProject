@@ -49,8 +49,6 @@ if (prod) {
     }),
   );
 }
-app.use(morgan('dev'));
-
 app.use(express.json());
 
 mongoose
@@ -64,25 +62,27 @@ mongoose
   .catch((e) => console.log(e));
 
 // Use routes
-
-app.all('*', (req, res, next) => {
-  let protocol = req.headers['x-forward-proto'] || req.protocol;
-  if (protocol === 'https') {
-    next();
-  } else {
-    let to = `https://${req.hostname}${req.url}`;
-    res.redirect(to);
-  }
-});
-//www to non-www
-app.all('/*', function (req, res, next) {
-  if (req.headers.host.match(/^www/) !== null) {
-    res.redirect('https://' + req.headers.host.replace(/^www\./, '') + req.url);
-  } else {
-    next();
-  }
-});
-
+if (prod) {
+  app.all('*', (req, res, next) => {
+    let protocol = req.headers['x-forward-proto'] || req.protocol;
+    if (protocol === 'https') {
+      next();
+    } else {
+      let to = `https://${req.hostname}${req.url}`;
+      res.redirect(to);
+    }
+  });
+  //www to non-www
+  app.all('/*', function (req, res, next) {
+    if (req.headers.host.match(/^www/) !== null) {
+      res.redirect(
+        'https://' + req.headers.host.replace(/^www\./, '') + req.url,
+      );
+    } else {
+      next();
+    }
+  });
+}
 app.use('/api/post', postsRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);

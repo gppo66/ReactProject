@@ -55,20 +55,23 @@ const PostDetail = (req) => {
     <Fragment>
       <Row className="d-flex justify-content-center pb-3">
         <Col className="col-md-3 mr-md-3">
-          <Link to="/" className="btn btn-primary btn-block">
+          <Link to="/" className="btn btn-primary btn-block custom-btn">
             ← Home
           </Link>
         </Col>
         <Col className="col-md-3 mr-md-3">
           <Link
             to={`/post/${req.match.params.id}/edit`}
-            className="btn btn-success btn-block"
+            className="btn btn-success btn-block custom-btn"
           >
             Edit Post
           </Link>
         </Col>
         <Col className="col-md-3">
-          <Button className="btn-block btn-danger" onClick={onDeleteClick}>
+          <Button
+            className="btn-block btn-danger custom-btn"
+            onClick={onDeleteClick}
+          >
             Delete Post
           </Button>
         </Col>
@@ -80,7 +83,7 @@ const PostDetail = (req) => {
     <Fragment>
       <Row className="d-flex justify-content-center pb-3">
         <Col className="col-sm-12 com-md-3">
-          <Link to="/" className="btn btn-primary btn-block">
+          <Link to="/" className="btn btn-primary btn-block custom-btn">
             ← Home
           </Link>
         </Col>
@@ -96,7 +99,7 @@ const PostDetail = (req) => {
           if (postDetail && postDetail.creator) {
             return (
               <Fragment>
-                <div className="NameTagFont">
+                <div className="NameTagFont col-6">
                   <span className="mr-3 categorySection">
                     <Button color="info">
                       {postDetail.category.categoryName}
@@ -104,7 +107,9 @@ const PostDetail = (req) => {
                   </span>
                   {postDetail.title}
                 </div>
-                <div className="align-self-end">{postDetail.creator.name}</div>
+                <div className="align-self-end col-6 custom-col6">
+                  {postDetail.creator.name}
+                </div>
               </Fragment>
             );
           }
@@ -137,12 +142,12 @@ const PostDetail = (req) => {
               {Array.isArray(comments)
                 ? comments.map(
                     ({ contents, creator, date, _id, creatorName }) => (
-                      <div key={_id}>
-                        <Row className="justify-content-between p-2">
-                          <div className="font-weight-bold">
+                      <div key={_id} className="comment-custom">
+                        <Row className="justify-content-between p-2 ">
+                          <div className="font-weight-bold col-6">
                             {creatorName ? creatorName : creator}
                           </div>
-                          <div className="text-small">
+                          <div className="text-small col-6 custom-col6">
                             <span className="font-weight-bold">
                               {date.split(' ')[0]}
                             </span>

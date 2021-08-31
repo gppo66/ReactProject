@@ -8,7 +8,7 @@ const Category = ({ posts }) => {
     <>
       {Array.isArray(posts)
         ? posts.map(({ _id, categoryName, posts }) => (
-            <div key={_id} className="mx-1 mt-1 my_category">
+            <div key={_id} className="ml-1 mt-1 my_category custom-row">
               <Link
                 to={`/post/category/${categoryName}`}
                 className="text-dark text-decoration-none"
