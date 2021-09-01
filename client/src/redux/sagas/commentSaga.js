@@ -2,6 +2,9 @@ import axios from 'axios';
 import { push } from 'connected-react-router';
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import {
+  COMMENT_DELETE_FAILURE,
+  COMMENT_DELETE_REQUEST,
+  COMMENT_DELETE_SUCCESS,
   COMMENT_LOADING_FAILURE,
   COMMENT_LOADING_REQUEST,
   COMMENT_LOADING_SUCCESS,
@@ -64,9 +67,44 @@ function* uploadComments(action) {
     yield push('/');
   }
 }
-
 function* watchUpLoadComments() {
   yield takeEvery(COMMENT_UPLOADING_REQUEST, uploadComments);
+}
+
+// Comment delete
+const DeleteCommentAPI = (payload) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  const token = payload.token;
+
+  if (token) {
+    config.headers['x-auth-token'] = token;
+  }
+  return axios.delete(`/api/post/${payload.id}/comments/`, config);
+};
+
+function* DeleteComment(action) {
+  try {
+    const result = yield call(DeleteCommentAPI, action.payload);
+
+    yield put({
+      type: COMMENT_DELETE_SUCCESS,
+      payload: result.data,
+    });
+    yield put(push('/'));
+  } catch (e) {
+    yield put({
+      type: COMMENT_DELETE_FAILURE,
+      payload: e,
+    });
+  }
+}
+
+function* watchDeleteComment() {
+  yield takeEvery(COMMENT_DELETE_REQUEST, DeleteComment);
 }
 
 export default function* commentSaga() {

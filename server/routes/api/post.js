@@ -196,6 +196,33 @@ router.post('/:id/comments', async (req, res, next) => {
     next(e);
   }
 });
+// [Comments Route]
+
+// @route Delete api/post/:id/comments/:id
+// @desc  Delte Comment
+// @access Private
+router.delete('/:id/comments/:id', auth, async (req, res) => {
+  const commentInfo = await Comment.findById({ _id: req.params.id });
+  console.log(commentInfo, 'Comment information');
+  const postId = commentInfo.post;
+  const userId = commentInfo.creator._id;
+  console.log(postId, 'postId');
+  console.log(userId, 'userId');
+  await Comment.deleteMany({ _id: req.params.id });
+  const result = await User.findByIdAndUpdate(userId, {
+    $pull: {
+      comments: { comment_id: req.params.id },
+    },
+  });
+  console.log(result, ' User Result');
+  const result2 = await Post.findByIdAndUpdate(postId, {
+    $pull: {
+      comments: req.params.id,
+    },
+  });
+  console.log(result2, ' Post Result');
+  return res.json({ success: true });
+});
 
 // @route Delete api/post/:id
 // @desc Delete a Post

@@ -116,3 +116,23 @@ html {
   padding-left: 4px;
   padding-right: 4px;
 }
+
+.custom-commentbtn {
+  font-weight: bold;
+  font-size: 13px;
+  width: auto;
+  display: inline;
+  margin-left: 2px;
+  cursor: pointer;
+}
+
+.custom-commentedit {
+  &:hover {
+    color: blue;
+  }
+}
+.custom-commentdelete {
+  &:hover {
+    color: red;
+  }
+}

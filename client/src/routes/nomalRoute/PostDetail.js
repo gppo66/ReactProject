@@ -28,7 +28,10 @@ const PostDetail = (req) => {
     (state) => state.post,
   );
   const { userId, userName } = useSelector((state) => state.auth);
-  const { comments } = useSelector((state) => state.comment);
+  const { comments } = useSelector((state) => {
+    console.log(state, 'state comment');
+    return state.comment;
+  });
 
   useEffect(() => {
     dispatch({
@@ -155,7 +158,14 @@ const PostDetail = (req) => {
                               {' '}
                               {date.split(' ')[1]}
                             </span>
+                            <div className="custom-commentbtn custom-commentedit">
+                              수정
+                            </div>
+                            <div className="custom-commentbtn custom-commentdelete">
+                              삭제
+                            </div>
                           </div>
+                          <div></div>
                         </Row>
                         <Row className="p-2">
                           <div>{contents}</div>
