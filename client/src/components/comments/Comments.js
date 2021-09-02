@@ -4,7 +4,7 @@ import {
   COMMENT_UPLOADING_REQUEST,
   COMMENT_LOADING_REQUEST,
 } from '../../redux/types';
-import { Form, FormGroup, Input, Button, Row } from 'reactstrap';
+import { Form, FormGroup, Input, Button, Row, Alert } from 'reactstrap';
 
 const Comments = ({ id, userName, userId }) => {
   const dispatch = useDispatch();
@@ -23,12 +23,16 @@ const Comments = ({ id, userName, userId }) => {
     };
 
     console.log(body);
-    dispatch({
-      type: COMMENT_UPLOADING_REQUEST,
-      payload: body,
-    });
-    resetValue.current.value = '';
-    setValues('');
+    if (body.userId) {
+      dispatch({
+        type: COMMENT_UPLOADING_REQUEST,
+        payload: body,
+      });
+      resetValue.current.value = '';
+      setValues('');
+    } else {
+      alert('로그인이 필요합니다.');
+    }
   };
 
   const resetValue = useRef(null);

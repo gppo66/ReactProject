@@ -214,14 +214,19 @@ router.delete('/:id/comments/:id', auth, async (req, res) => {
       comments: { comment_id: req.params.id },
     },
   });
-  console.log(result, ' User Result');
+  //console.log(result, ' User Result');
   const result2 = await Post.findByIdAndUpdate(postId, {
     $pull: {
       comments: req.params.id,
     },
   });
-  console.log(result2, ' Post Result');
-  return res.json({ success: true });
+  //console.log(result2, ' Post Result');
+  const comment = await Post.findById(postId).populate({
+    path: 'comments',
+  });
+  const result3 = comment.comments;
+  //console.log(result3, 'comment load');
+  res.json(result3);
 });
 
 // @route Delete api/post/:id

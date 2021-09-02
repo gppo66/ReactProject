@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { Button, Col, Container, Row } from 'reactstrap';
 import {
+  COMMENT_DELETE_REQUEST,
+  COMMENT_LOADING_REQUEST,
   POST_DELETE_REQUEST,
   POST_DETAIL_LOADING_REQUEST,
   USER_LOADING_REQUEST,
@@ -42,6 +44,10 @@ const PostDetail = (req) => {
       type: USER_LOADING_REQUEST,
       payload: localStorage.getItem('token'),
     });
+    dispatch({
+      type: COMMENT_LOADING_REQUEST,
+      payload: req.match.params.id,
+    });
   }, [dispatch, req.match.params.id]);
 
   const onDeleteClick = () => {
@@ -54,6 +60,42 @@ const PostDetail = (req) => {
     });
   };
 
+  const onCommentDeleteClick = (e) => {
+    const commentBox = comments;
+    console.warn(e.target.id, 'e info');
+    console.error(commentBox, 'comment state');
+    /*
+    const filterBox = commentBox.filter(
+      (comments) => comments._id !== e.target.id,
+    );
+    console.warn(filterBox, 'filter');
+    */
+    const comment = commentBox.filter(
+      (comments) => comments._id === e.target.id,
+    );
+    const { _id, creator } = comment[0];
+    console.warn(creatorId, ' creator Id');
+    console.warn(creator, ' comment creator');
+    console.warn(_id, ' comment Id');
+    if (creatorId === creator) {
+      if (e.target.id === _id) {
+        if (window.confirm('댓글을 삭제하시겠습니까?')) {
+          dispatch({
+            type: COMMENT_DELETE_REQUEST,
+            payload: {
+              post_id: req.match.params.id,
+              id: e.target.id,
+              token: localStorage.getItem('token'),
+            },
+          });
+        }
+      } else {
+        alert('같은 작성자 다른 댓글');
+      }
+    } else {
+      alert('다른 작성자의 글은 관리자 외에는 수정,삭제가 불가능합니다.');
+    }
+  };
   const EditButton = (
     <Fragment>
       <Row className="d-flex justify-content-center pb-3">
@@ -158,14 +200,20 @@ const PostDetail = (req) => {
                               {' '}
                               {date.split(' ')[1]}
                             </span>
-                            <div className="custom-commentbtn custom-commentedit">
+                            <div
+                              id={_id}
+                              className="custom-commentbtn custom-commentedit"
+                            >
                               수정
                             </div>
-                            <div className="custom-commentbtn custom-commentdelete">
+                            <div
+                              id={_id}
+                              className="custom-commentbtn custom-commentdelete"
+                              onClick={onCommentDeleteClick}
+                            >
                               삭제
                             </div>
                           </div>
-                          <div></div>
                         </Row>
                         <Row className="p-2">
                           <div>{contents}</div>

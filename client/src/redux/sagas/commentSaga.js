@@ -83,18 +83,20 @@ const DeleteCommentAPI = (payload) => {
   if (token) {
     config.headers['x-auth-token'] = token;
   }
-  return axios.delete(`/api/post/${payload.id}/comments/`, config);
+  return axios.delete(
+    `/api/post/${payload.post_id}/comments/${payload.id}`,
+    config,
+  );
 };
 
 function* DeleteComment(action) {
   try {
     const result = yield call(DeleteCommentAPI, action.payload);
-
+    console.warn(result, ' delete result data');
     yield put({
       type: COMMENT_DELETE_SUCCESS,
       payload: result.data,
     });
-    yield put(push('/'));
   } catch (e) {
     yield put({
       type: COMMENT_DELETE_FAILURE,
@@ -108,5 +110,9 @@ function* watchDeleteComment() {
 }
 
 export default function* commentSaga() {
-  yield all([fork(watchLoadComments), fork(watchUpLoadComments)]);
+  yield all([
+    fork(watchLoadComments),
+    fork(watchUpLoadComments),
+    fork(watchDeleteComment),
+  ]);
 }

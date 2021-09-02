@@ -1,4 +1,7 @@
 import {
+  COMMENT_DELETE_FAILURE,
+  COMMENT_DELETE_REQUEST,
+  COMMENT_DELETE_SUCCESS,
   COMMENT_LOADING_FAILURE,
   COMMENT_LOADING_REQUEST,
   COMMENT_LOADING_SUCCESS,
@@ -45,6 +48,23 @@ const commentReducer = (state = initialState, action) => {
         loading: false,
       };
     case COMMENT_UPLOADING_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case COMMENT_DELETE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case COMMENT_DELETE_SUCCESS:
+      return {
+        ...state,
+        comments: action.payload,
+        isAuthenticated: true,
+        loading: false,
+      };
+    case COMMENT_DELETE_FAILURE:
       return {
         ...state,
         loading: false,
