@@ -21,14 +21,13 @@ import {
 } from 'reactstrap';
 
 const Profile = () => {
-  const { userId, errorMsg, successMsg, previousMatchMsg } = useSelector(
-    (state) => state.auth,
-  );
-  const { userName } = useParams();
+  const { userId, errorMsg, successMsg, previousMatchMsg, userName } =
+    useSelector((state) => state.auth);
+  //const { userName } = useParams();
   const [form, setValues] = useState({
     previousPassword: '',
-    password: '',
-    rePassword: '',
+    password: null,
+    rePassword: null,
   });
   const dispatch = useDispatch();
   const onChange = (e) => {
@@ -45,7 +44,7 @@ const Profile = () => {
 
   const onSubmit = async (e) => {
     await e.preventDefault();
-    const { previousPassword, password, rePassword } = form;
+    const { newUserName, previousPassword, password, rePassword } = form;
     const token = localStorage.getItem('token');
 
     const body = {
@@ -55,6 +54,7 @@ const Profile = () => {
       rePassword,
       userId,
       userName,
+      newUserName,
     };
 
     dispatch({
@@ -72,10 +72,21 @@ const Profile = () => {
       <Col sm="12" md={{ size: 6, offset: 3 }}>
         <Card>
           <CardHeader>
-            <strong>Edit Password</strong>
+            <strong>개인정보 수정</strong>
           </CardHeader>
           <CardBody>
             <Form onSubmit={onSubmit}>
+              <FormGroup>
+                <Label for="title">이름</Label>
+                <Input
+                  type="text"
+                  name="newUserName"
+                  id="newUserName"
+                  className="form-control"
+                  onChange={onChange}
+                  placeholder={userName}
+                />
+              </FormGroup>
               <FormGroup>
                 <Label for="title">기존 비밀번호</Label>
                 <Input

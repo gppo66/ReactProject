@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { push } from 'connected-react-router';
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import {
   CLEAR_ERROR_FAILURE,
@@ -170,7 +171,7 @@ const EditPasswordAPI = (payload) => {
 
 function* EditPassword(action) {
   try {
-    console.log(action, 'EditPassword');
+    console.warn(action.payload, 'EditPassword');
     const result = yield call(EditPasswordAPI, action.payload);
     yield put({
       type: PASSWORD_EDIT_UPLOADING_SUCCESS,

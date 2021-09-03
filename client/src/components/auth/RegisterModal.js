@@ -50,8 +50,8 @@ const RegisterModal = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const { name, email, password } = form;
-    const newUser = { name, email, password };
+    const { name, email, password, repassword } = form;
+    const newUser = { name, email, password, repassword };
     console.log(newUser, 'new User');
     dispatch({
       type: REGISTER_REQUEST,
@@ -91,6 +91,14 @@ const RegisterModal = () => {
                 type="password"
                 name="password"
                 id="password"
+                placeholder="Password"
+                onChange={onChange}
+              />
+              <Label for="repassword">Password 확인</Label>
+              <Input
+                type="password"
+                name="repassword"
+                id="repassword"
                 placeholder="Password"
                 onChange={onChange}
               />
