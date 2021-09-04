@@ -21,7 +21,8 @@ const MyProfile = () => {
             className="colComment-custom"
           >
             <h4 className="name-custom">
-              항상 사용자 친화적인 프로그램을 만들기 위해 공부하고,
+              항상 사용자 친화적인 프로그램을 <br />
+              만들기 위해 공부하고,
               <br /> 무엇이든 긍정적이고 적극적인 태도로 <br />
               주변사람들에게 좋은 영향을 끼치고 싶습니다.
             </h4>
