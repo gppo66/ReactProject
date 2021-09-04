@@ -16,6 +16,7 @@
 
 #main-body {
   min-height: 56vh;
+  background: #fff;
 }
 
 .card-img-top {
@@ -145,13 +146,13 @@ html {
   max-width: 100%;
   height: 396px;
   left: 0px;
-  background: #edf7fa;
+  background: #fff;
   text-align: center;
 }
 .MyProfile-img-custom {
   background-image: url('./img/portfolioBackgroundImg.jpg');
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: cover;
 }
 .MyProfileDetail-custom {
   position: relative;
@@ -160,7 +161,7 @@ html {
   height: 396px;
   left: 0px;
   top: 396px;
-  background: white;
+  background: #fff;
   text-align: center;
   align-items: center;
 }
@@ -171,7 +172,7 @@ html {
   height: 500px;
   left: 0px;
   top: 396px;
-  background: white;
+  background: #fff;
   text-align: center;
   align-items: center;
 }
@@ -180,7 +181,7 @@ html {
   text-align: center;
   font-weight: bold;
   font-family: Heebo;
-  color: white;
+  color: #fff;
 }
 .about-custom {
   text-align: center;
