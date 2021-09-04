@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { POSTS_LOADING_REQUEST } from '../../redux/types';
+import { POSTS_LOADING_REQUEST, POSTS_WRITE_REQUEST } from '../../redux/types';
 import { Helmet } from 'react-helmet';
 import { Alert, Row } from 'reactstrap';
 import { GrowingSpinner } from '../../components/spinner/Spinner';
@@ -15,6 +15,7 @@ const PostCardList = () => {
 
   useEffect(() => {
     dispatch({ type: POSTS_LOADING_REQUEST, payload: 0 });
+    dispatch({ type: POSTS_WRITE_REQUEST, payload: 0 });
   }, [dispatch]);
 
   // Infinite Scroll

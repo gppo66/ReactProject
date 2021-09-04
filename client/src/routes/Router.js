@@ -15,10 +15,14 @@ import {
 } from './protectedRoute/ProtectedRoute';
 import PostEdit from './nomalRoute/PostEdit';
 import Profile from './nomalRoute/Profile';
+import AboutMe from './nomalRoute/AboutMe';
 
 const MyRouter = () => (
   <Fragment>
     <AppNavBar />
+    <Switch>
+      <Route path="/aboutMe" exact component={AboutMe} />
+    </Switch>
     <Header />
     <Container id="main-body">
       <Switch>
@@ -37,6 +41,7 @@ const MyRouter = () => (
           component={Profile}
         />
         <Route path="/search/:searchTerm" exact component={Search} />
+        <Route path="/aboutMe" exact />
         <Redirect from="*" to="/" />
       </Switch>
     </Container>

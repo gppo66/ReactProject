@@ -119,6 +119,7 @@ const AppNavBar = () => {
           >
             JellBe's Blog (젤베의 블로그)
           </Link>
+
           <NavbarToggler onClick={handleToggle} />
           <Collapse isOpen={isOpen} navbar>
             <SearchInput isOpen={isOpen} />

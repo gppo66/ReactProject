@@ -41,7 +41,9 @@ const Profile = () => {
       type: PROFILE_REQUEST,
     });
   }, [dispatch]);
-
+  const onClickHome = () => {
+    window.location.href = '/';
+  };
   const onSubmit = async (e) => {
     await e.preventDefault();
     const { newUserName, previousPassword, password, rePassword } = form;
@@ -130,7 +132,20 @@ const Profile = () => {
               >
                 제출하기
               </Button>
-              {successMsg ? <Alert color="success">{successMsg}</Alert> : ''}
+              {successMsg ? (
+                <Alert color="success">
+                  {successMsg}
+                  <Button
+                    color="success"
+                    className="mx-3"
+                    onClick={onClickHome}
+                  >
+                    홈으로
+                  </Button>
+                </Alert>
+              ) : (
+                ''
+              )}
             </Form>
           </CardBody>
         </Card>

@@ -77,23 +77,27 @@ const PostDetail = (req) => {
     console.warn(creatorId, ' creator Id');
     console.warn(creator, ' comment creator');
     console.warn(_id, ' comment Id');
-    if (creatorId === creator) {
-      if (e.target.id === _id) {
-        if (window.confirm('댓글을 삭제하시겠습니까?')) {
-          dispatch({
-            type: COMMENT_DELETE_REQUEST,
-            payload: {
-              post_id: req.match.params.id,
-              id: e.target.id,
-              token: localStorage.getItem('token'),
-            },
-          });
+    if (!userId) {
+      alert('로그인이 필요합니다.');
+    } else {
+      if (creatorId === creator) {
+        if (e.target.id === _id) {
+          if (window.confirm('댓글을 삭제하시겠습니까?')) {
+            dispatch({
+              type: COMMENT_DELETE_REQUEST,
+              payload: {
+                post_id: req.match.params.id,
+                id: e.target.id,
+                token: localStorage.getItem('token'),
+              },
+            });
+          }
+        } else {
+          alert('같은 작성자 다른 댓글');
         }
       } else {
-        alert('같은 작성자 다른 댓글');
+        alert('다른 작성자의 글은 관리자 외에는 수정,삭제가 불가능합니다.');
       }
-    } else {
-      alert('다른 작성자의 글은 관리자 외에는 수정,삭제가 불가능합니다.');
     }
   };
   const EditButton = (

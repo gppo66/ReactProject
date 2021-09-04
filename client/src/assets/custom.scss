@@ -4,7 +4,7 @@
 }
 
 #page-header {
-  height: 200px;
+  height: 250px;
   //   background: url('../assets/img/uselessBear.jpg');
   background: #343a40;
   background-position: 54% 95%; // 가로 세로 의미
@@ -15,7 +15,7 @@
 }
 
 #main-body {
-  min-height: 90vh;
+  min-height: 16vh;
 }
 
 .card-img-top {
@@ -134,5 +134,96 @@ html {
 .custom-commentdelete {
   &:hover {
     color: red;
+  }
+}
+
+/////////////////// Portfolio css //////////////////
+
+.MyProfile-custom {
+  position: absolute;
+  width: 100%;
+  max-width: 100%;
+  height: 396px;
+  left: 0px;
+  background: #edf7fa;
+  text-align: center;
+}
+.MyProfile-img-custom {
+  background-image: url('./img/portfolioBackgroundImg.jpg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.MyProfileDetail-custom {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 396px;
+  left: 0px;
+  top: 396px;
+  background: #f8f9fa;
+  text-align: center;
+  align-items: center;
+}
+.MyProfileDetaillong-custom {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 500px;
+  left: 0px;
+  top: 396px;
+  background: #f8f9fa;
+  text-align: center;
+  align-items: center;
+}
+
+.name-custom {
+  text-align: center;
+  font-weight: bold;
+  font-family: Heebo;
+  color: white;
+}
+.about-custom {
+  text-align: center;
+  font-weight: bold;
+  font-family: Heebo;
+  color: black;
+  margin-bottom: 30px;
+}
+.colName-custom {
+  margin-top: 90px;
+}
+
+.colComment-custom {
+  margin-top: 10px;
+}
+
+.borderline-custom {
+  max-width: 100%;
+  width: 100%;
+  height: 0;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: none;
+  border-top: 0.3rem solid white;
+  opacity: 0.9;
+}
+.borderlineblack-custom {
+  max-width: 100%;
+  width: 100%;
+  height: 0;
+  margin-top: 3.5rem;
+  margin-bottom: 1.5rem;
+  border: none;
+  border-top: 0.3rem solid black;
+  opacity: 0.9;
+}
+
+.mail-custom {
+  text-decoration: none;
+  color: black;
+  &:hover {
+    text-decoration: underline;
+    color: black;
+    font-weight: bold;
   }
 }

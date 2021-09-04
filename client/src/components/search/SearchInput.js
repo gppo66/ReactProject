@@ -33,7 +33,12 @@ const SearchInput = () => {
   return (
     <Fragment>
       <Form onSubmit={onSubmit} className="col mt-2">
-        <Input name="searchBy" onChange={onChange} innerRef={resetValue} />
+        <Input
+          name="searchBy"
+          onChange={onChange}
+          innerRef={resetValue}
+          placeholder="검색"
+        />
       </Form>
     </Fragment>
   );

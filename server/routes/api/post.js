@@ -204,6 +204,7 @@ router.post('/:id/comments', async (req, res, next) => {
 router.delete('/:id/comments/:id', auth, async (req, res) => {
   const commentInfo = await Comment.findById({ _id: req.params.id });
   console.log(commentInfo, 'Comment information');
+  console.log(req.params, ' req information');
   const postId = commentInfo.post;
   const userId = commentInfo.creator._id;
   console.log(postId, 'postId');
@@ -220,6 +221,32 @@ router.delete('/:id/comments/:id', auth, async (req, res) => {
       comments: req.params.id,
     },
   });
+  //console.log(result2, ' Post Result');
+  const comment = await Post.findById(postId).populate({
+    path: 'comments',
+  });
+  const result3 = comment.comments;
+  //console.log(result3, 'comment load');
+  res.json(result3);
+});
+// [Comments Route]
+
+// @route Edit api/post/:id/comments/:id
+// @desc  Edit Comment
+// @access Private
+router.post('/:id/comments/:id', auth, async (req, res) => {
+  const commentInfo = await Comment.findById({ _id: req.params.id });
+  console.log(commentInfo, 'Comment information');
+  const postId = commentInfo.post;
+  const userId = commentInfo.creator._id;
+  console.log(postId, 'postId');
+  console.log(userId, 'userId');
+  await Comment.findByIdAndUpdate(req.params.id, {
+    $push: {
+      //contents : req.params.,
+    },
+  });
+
   //console.log(result2, ' Post Result');
   const comment = await Post.findById(postId).populate({
     path: 'comments',
