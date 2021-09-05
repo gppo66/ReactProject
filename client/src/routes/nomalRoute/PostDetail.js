@@ -150,9 +150,15 @@ const PostDetail = (req) => {
               <Fragment>
                 <div className="NameTagFont col-6">
                   <span className="mr-3 categorySection">
-                    <Button color="info">
-                      {postDetail.category.categoryName}
-                    </Button>
+                    {postDetail.category.categoryName === '공지사항' ? (
+                      <Button color="warning">
+                        {postDetail.category.categoryName}
+                      </Button>
+                    ) : (
+                      <Button color="info">
+                        {postDetail.category.categoryName}
+                      </Button>
+                    )}
                   </span>
                   {postDetail.title}
                 </div>
