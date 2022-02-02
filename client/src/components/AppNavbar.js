@@ -19,7 +19,6 @@ import {
 import LoginModal from './auth/LoginModal';
 import RegisterModal from './auth/RegisterModal';
 import SearchInput from './search/SearchInput';
-
 const AppNavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, user, userRole } = useSelector(
@@ -117,7 +116,7 @@ const AppNavBar = () => {
             to="/"
             className="text-white text-decoration-none navLogo-custom-set"
           >
-            JellBe's Blog (젤베의 블로그)
+            JellyBear
           </Link>
 
           <NavbarToggler onClick={handleToggle} />
